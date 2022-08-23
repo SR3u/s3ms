@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * An exceptions-friendly wrapper for {@link Optional}
+ * A checked exceptions-friendly wrapper for {@link Optional}
  *
  * @since 1.8.0.0
  */
