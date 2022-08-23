@@ -169,7 +169,7 @@ public class Optionalex<T> {
     /**
      * If a value is present, apply the provided mapping function to it,
      * and if the result is non-null, return an {@code Optionalex} describing the
-     * result.  Otherwise return an empty {@code Optionalex}.
+     * result.  Otherwise, returns an empty {@code Optionalex}.
      *
      * @param mapper a mapping function to apply to the value, if present
      * @return an {@code Optionalex} describing the result of applying a mapping
@@ -200,7 +200,7 @@ public class Optionalex<T> {
     /**
      * If a value is present, apply the provided mapping function to it,
      * and if the result is non-null, return an {@code Optionalex} describing the
-     * result.  Otherwise return an empty {@code Optionalex}.
+     * result.  Otherwise, return an empty {@code Optionalex}.
      *
      * @param mapper a mapping function to apply to the value, if present
      * @return an {@code Optionalex} describing the result of applying a mapping
@@ -245,8 +245,28 @@ public class Optionalex<T> {
      * @throws NullPointerException if the mapping function is null or returns
      *                              a null result
      */
-    public <U> Optional<U> flatMap(Function<? super T, Optional<U>> mapper) {
-        return optional.flatMap(mapper);
+    public <U> Optionalex<U> flatMapex(Function<? super T, Optional<U>> mapper) {
+        return Optionalex.ofOptional(optional.flatMap(mapper));
+    }
+
+    /**
+     * If a value is present, apply the provided {@code Optionalex}-bearing
+     * mapping function to it, return that result, otherwise return an empty
+     * {@code Optionalex}.  This method is similar to {@link #map(Function)},
+     * but the provided mapper is one whose result is already an {@code Optionalex},
+     * and if invoked, {@code flatMap} does not wrap it with an additional
+     * {@code Optionalex}.
+     *
+     * @param mapper a mapping function to apply to the value, if present
+     *               the mapping function
+     * @return the result of applying an {@code Optionalex}-bearing mapping
+     * function to the value of this {@code Optionalex}, if a value is present,
+     * otherwise an empty {@code Optionalex}
+     * @throws NullPointerException if the mapping function is null or returns
+     *                              a null result
+     */
+    public <U> Optionalex<U> flatMap(Function<? super T, Optionalex<U>> mapper) {
+        return Optionalex.ofOptional(optional.flatMap(a -> mapper.apply(a).optional));
     }
 
     /**
